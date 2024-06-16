@@ -1,0 +1,7 @@
+spring:
+  rabbitmq:
+    host: 192.168.150.108 # 主机名
+    port: 5672 # 发送消息和接收消息的端口号
+    virtual-host: / # 虚拟主机
+    username: itcast # 用户名
+    password: 123456 # 密码

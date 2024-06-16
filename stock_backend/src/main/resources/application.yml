@@ -1,0 +1,31 @@
+server:
+  port: 8081
+spring:
+  profiles:
+    active: cache,stock
+  datasource:
+    druid:
+      initial-size: 6
+      min-idle: 2
+      max-active: 20
+      max-wait: 600000
+      url: jdbc:mysql://192.168.150.108:3306/stock_db?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
+# MyBatis配置
+mybatis:
+  # 类型别名包，指定这个包下的所有pojo类，MyBatis会自动识别
+  type-aliases-package: com.itheima.stock.pojo
+  # mapper映射文件的位置，这里指定的是classpath下的mapper目录中的所有xml文件
+  mapper-locations: classpath:mapper/*.xml
+  # MyBatis配置项
+  configuration:
+    # 开启下划线到驼峰命名的映射，例如数据库中的user_id，在Java中会映射成userId
+    map-underscore-to-camel-case: true
+
+# pagehelper配置
+pagehelper:
+  helper-dialect: mysql #指定分页数据库类型（方言）
+  reasonable: true #合理查询超过最大页，则查询最后一页
