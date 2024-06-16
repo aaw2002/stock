@@ -30,5 +30,6 @@ public class RedisCacheConfig {
         //5.初始化参数设置
         template.afterPropertiesSet();
         return template;
+
     }
 }
