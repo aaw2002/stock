@@ -7,10 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.itheima.stock.domain.vo.resp.PageResult;
 import com.itheima.stock.domain.vo.resp.R;
 import com.itheima.stock.domain.vo.resp.ResponseCode;
-import com.itheima.stock.mapper.StockBlockRtInfoMapper;
-import com.itheima.stock.mapper.StockBusinessMapper;
-import com.itheima.stock.mapper.StockMarketIndexInfoMapper;
-import com.itheima.stock.mapper.StockRtInfoMapper;
+import com.itheima.stock.mapper.*;
 import com.itheima.stock.pojo.domain.*;
 import com.itheima.stock.pojo.vo.StockInfoConfig;
 import com.itheima.stock.service.StockService;
@@ -42,6 +39,8 @@ public class StockServiceImpl implements StockService {
     private StockBlockRtInfoMapper stockBlockRtInfoMapper;
     @Autowired
     private Cache<String,Object> caffeineCache;
+    @Autowired
+    private StockOuterMarketIndexInfoMapper stockOuterMarketIndexInfoMapper;
     /**
      * 获取国内最新时间股票信息
      *
@@ -237,4 +236,48 @@ public class StockServiceImpl implements StockService {
         //3.组装数据，响应
         return R.ok(data);
     }
+
+    /**
+     * 外盘指数行情数据查询，根据时间和大盘点数降序取前四
+     * @return
+     */
+    @Override
+    public R<List> outerAllStock() {
+        //获取外盘指数数据
+        List<outerStockDomain> data=stockOuterMarketIndexInfoMapper.getOuterAllStock();
+
+        return R.ok(data);
+    }
+
+    /**
+     *  根据输入的个股代码模糊搜索
+     */
+    @Override
+    public R<List> vagueSearch(String searchStr) {
+        //进行模糊查询
+        List<vagueSearchRtDomain> data =stockRtInfoMapper.vagueSearch(searchStr);
+        return R.ok(data);
+    }
+
+    /**
+     * 个股主营业务查询接口
+     */
+    @Override
+    public oneStockBusiness getStockBusiness(String code) {
+       oneStockBusiness data= stockBusinessMapper.getOneStockBusiness(code);
+        return data;
+    }
+
+
+
+    /**
+     * 个股周k线
+     */
+    @Override
+    public weekStockK getStockScreenWeekKline(String code) {
+
+
+        return null;
+    }
+
 }

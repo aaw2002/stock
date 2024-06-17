@@ -27,6 +27,10 @@
     <select id="getStockIds" resultType="java.lang.String">
         select stock_code from stock_business
     </select>
+    <select id="getOneStockBusiness" resultType="com.itheima.stock.pojo.domain.oneStockBusiness">
+        select stock_code code,stock_name name,business,block_name trade from stock_business
+        where stock_code = #{code}
+    </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from stock_business

@@ -3,6 +3,7 @@ package com.itheima.stock.mapper;
 import com.itheima.stock.pojo.domain.Stock4EvrDayDomain;
 import com.itheima.stock.pojo.domain.Stock4MinuteDomain;
 import com.itheima.stock.pojo.domain.StockUpdownDomain;
+import com.itheima.stock.pojo.domain.vagueSearchRtDomain;
 import com.itheima.stock.pojo.entity.StockRtInfo;
 import org.apache.ibatis.annotations.Param;
 
@@ -70,4 +71,7 @@ public interface StockRtInfoMapper {
      * @param infos
      */
     void insertBatch(@Param("infos") List<StockRtInfo> infos);
+
+    //根据个股代码进行模糊查询
+    List<vagueSearchRtDomain> vagueSearch(@Param("searchStr") String searchStr);
 }

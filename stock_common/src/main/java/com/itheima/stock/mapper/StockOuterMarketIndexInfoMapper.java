@@ -1,6 +1,9 @@
 package com.itheima.stock.mapper;
 
+import com.itheima.stock.pojo.domain.outerStockDomain;
 import com.itheima.stock.pojo.entity.StockOuterMarketIndexInfo;
+
+import java.util.List;
 
 /**
 * @author aianwei
@@ -22,4 +25,6 @@ public interface StockOuterMarketIndexInfoMapper {
 
     int updateByPrimaryKey(StockOuterMarketIndexInfo record);
 
+    //获取外盘大盘，根据时间降序和大盘点数降序
+    List<outerStockDomain> getOuterAllStock();
 }

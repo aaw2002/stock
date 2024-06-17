@@ -4,6 +4,8 @@ import com.itheima.stock.domain.vo.resp.PageResult;
 import com.itheima.stock.domain.vo.resp.R;
 import com.itheima.stock.pojo.domain.InnerMarketDomain;
 import com.itheima.stock.pojo.domain.StockBlockDomain;
+import com.itheima.stock.pojo.domain.oneStockBusiness;
+import com.itheima.stock.pojo.domain.weekStockK;
 import com.itheima.stock.service.StockService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -91,6 +93,31 @@ public class StockController {
     @ApiOperation("查询指定股票每天产生的数据，组成日k线数据")
     public R<List> getStockScreenDKline(@RequestParam(name = "code",required = true)String code){
         return stockService.getStockScreenDKline(code);
+    }
+
+    @GetMapping("external/index")
+    @ApiOperation("外盘指数行情数据查询，根据时间和大盘点数降序取前四")
+    public R<List> getExternalIndex(){
+        return stockService.outerAllStock();
+    }
+
+    /**
+     * 个股主营业务查询接口
+     */
+    @GetMapping("stock/describe")
+    @ApiOperation("个股主营业务查询接口")
+    public R<oneStockBusiness> getStockDescribe(@RequestParam(name = "code",required = true)String code){
+        return R.ok(stockService.getStockBusiness(code));
+    }
+    /**
+     * 个股周k线
+     */
+    @GetMapping("stock/screen/weekkline")
+    @ApiOperation("个股周k线")
+    public R<weekStockK> getStockScreenWeekKline(@RequestParam(name = "code",required = true)String code){
+
+        stockService.getStockScreenWeekKline(code);
+        return R.ok(stockService.getStockScreenWeekKline(code));
     }
 
 }

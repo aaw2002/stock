@@ -126,6 +126,10 @@
         </foreach>
         order by sri2.cur_time;
     </select>
+    <select id="vagueSearch" resultType="com.itheima.stock.pojo.domain.vagueSearchRtDomain">
+        select stock_code code,stock_name name from stock_rt_info
+        where stock_code like concat('%',#{searchStr},'%') limit 10
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
