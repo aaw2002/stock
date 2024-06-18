@@ -74,6 +74,6 @@ public interface StockService {
     /**
      * 个股周k线
      */
-    weekStockK getStockScreenWeekKline(String code);
+    R<weekStockK> getStockScreenWeekKline(String code);
 
 }

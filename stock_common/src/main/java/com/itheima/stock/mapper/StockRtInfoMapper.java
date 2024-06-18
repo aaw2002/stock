@@ -1,12 +1,10 @@
 package com.itheima.stock.mapper;
 
-import com.itheima.stock.pojo.domain.Stock4EvrDayDomain;
-import com.itheima.stock.pojo.domain.Stock4MinuteDomain;
-import com.itheima.stock.pojo.domain.StockUpdownDomain;
-import com.itheima.stock.pojo.domain.vagueSearchRtDomain;
+import com.itheima.stock.pojo.domain.*;
 import com.itheima.stock.pojo.entity.StockRtInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -74,4 +72,16 @@ public interface StockRtInfoMapper {
 
     //根据个股代码进行模糊查询
     List<vagueSearchRtDomain> vagueSearch(@Param("searchStr") String searchStr);
+
+    //获取指定个股的周K线数据
+    zhoukamm getStockScreenWeekKline(@Param("code") String code, @Param("openDate") Date openDate, @Param("date") Date date);
+
+    //查询周k线最价时间
+    Date getMxTime(@Param("code") String code, @Param("openDate") Date openDate, @Param("date") Date date, @Param("maxPrice") BigDecimal maxPrice);
+
+    //查询周k周一开盘价
+    BigDecimal getOpenPrice(@Param("code") String code, @Param("openDate") Date openDate);
+
+    //查询周k周五收盘价若未到则查询当前价
+    BigDecimal getClosePrice(@Param("code") String code, @Param("date") Date date);
 }

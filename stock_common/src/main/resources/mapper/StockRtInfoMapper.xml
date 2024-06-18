@@ -130,6 +130,26 @@
         select stock_code code,stock_name name from stock_rt_info
         where stock_code like concat('%',#{searchStr},'%') limit 10
     </select>
+    <select id="getStockScreenWeekKline" resultType="com.itheima.stock.pojo.domain.zhoukamm">
+        select sum(max_price+min_price)/2*count(*) avgPrice,
+               min(min_price) minPrice,
+               max(max_price) maxPrice,
+               stock_code stockCode
+        from stock_rt_info
+        where stock_code=#{code} and cur_time between #{openDate} and #{date}
+    </select>
+    <select id="getMxTime" resultType="java.util.Date">
+        select cur_time mxTime from stock_rt_info
+        where stock_code=#{code} and cur_time between #{openDate} and #{date} and max_price=#{maxPrice}
+    </select>
+    <select id="getOpenPrice" resultType="java.math.BigDecimal">
+        select open_price from stock_rt_info
+        where stock_code=#{code} and cur_time = #{openDate}
+    </select>
+    <select id="getClosePrice" resultType="java.math.BigDecimal">
+        select cur_price from stock_rt_info
+        where stock_code=#{code} and cur_time = #{date}
+    </select>
 
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">

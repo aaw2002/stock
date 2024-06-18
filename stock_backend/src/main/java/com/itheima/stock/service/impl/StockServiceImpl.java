@@ -12,18 +12,26 @@ import com.itheima.stock.pojo.domain.*;
 import com.itheima.stock.pojo.vo.StockInfoConfig;
 import com.itheima.stock.service.StockService;
 import com.itheima.stock.utils.DateTimeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 @Service
+@Slf4j
 public class StockServiceImpl implements StockService {
     @Autowired
     private StockMarketIndexInfoMapper stockMarketIndexInfoMapper;
@@ -274,10 +282,36 @@ public class StockServiceImpl implements StockService {
      * 个股周k线
      */
     @Override
-    public weekStockK getStockScreenWeekKline(String code) {
+    public R<weekStockK> getStockScreenWeekKline(String code) {
+        if (code.isEmpty()){
+            R.error(ResponseCode.DATA_NOT_EXISTS);
+        }
+        //获取当前时间
+        Date date = DateTimeUtils.getLastDate4Stock(DateTime.now()).toDate();
+        //获取周一的时间
+        LocalDate localDate = LocalDate.now();
+        LocalDate start = localDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        Date startTime = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        DateTime time = new DateTime(startTime);
+        //周一 的开盘时间
+        Date openDate = DateTimeUtils.getOpenDate(time).toDate();
+        //进行平均价max和min价和编码
+        zhoukamm data = stockRtInfoMapper.getStockScreenWeekKline(code, openDate, date);
+        BigDecimal maxPrice = data.getMaxPrice();
+        //查询最高价时间
+        Date mxTime =stockRtInfoMapper.getMxTime(code, openDate, date, maxPrice);
+        //查询周一开盘价
+        BigDecimal openPrice = stockRtInfoMapper.getOpenPrice(code, openDate);
+        //查询周五收盘价
+        BigDecimal closePrice = stockRtInfoMapper.getClosePrice(code,  date);
+        weekStockK weekK = new weekStockK();
+        BeanUtils.copyProperties(data ,weekK);
+        weekK.setMxTime(mxTime);
+        weekK.setOpenPrice(openPrice);
+        weekK.setClosePrice(closePrice);
 
-
-        return null;
+        System.out.println(weekK);
+        return R.ok(weekK);
     }
 
 }

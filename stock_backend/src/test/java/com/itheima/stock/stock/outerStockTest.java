@@ -3,6 +3,7 @@ package com.itheima.stock.stock;
 import com.itheima.stock.domain.vo.resp.R;
 import com.itheima.stock.pojo.domain.oneStockBusiness;
 import com.itheima.stock.pojo.domain.outerStockDomain;
+import com.itheima.stock.pojo.domain.weekStockK;
 import com.itheima.stock.service.StockService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,4 +39,8 @@ public class outerStockTest {
         System.out.println(oneStockBusinessR);
     }
 
+    @Test
+    public void getStockScreenWeekKline() {
+        stockService.getStockScreenWeekKline("000002");
+    }
 }

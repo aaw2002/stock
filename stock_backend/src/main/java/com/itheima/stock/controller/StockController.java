@@ -116,8 +116,8 @@ public class StockController {
     @ApiOperation("个股周k线")
     public R<weekStockK> getStockScreenWeekKline(@RequestParam(name = "code",required = true)String code){
 
-        stockService.getStockScreenWeekKline(code);
-        return R.ok(stockService.getStockScreenWeekKline(code));
+        R<weekStockK> data = stockService.getStockScreenWeekKline(code);
+        return data;
     }
 
 }
