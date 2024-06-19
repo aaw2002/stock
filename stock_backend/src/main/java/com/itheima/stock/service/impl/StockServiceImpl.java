@@ -288,7 +288,7 @@ public class StockServiceImpl implements StockService {
         }
         //获取当前时间
         Date date = DateTimeUtils.getLastDate4Stock(DateTime.now()).toDate();
-        //获取周一的时间
+        //获取周一开盘的时间
         LocalDate localDate = LocalDate.now();
         LocalDate start = localDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
         Date startTime = Date.from(start.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -304,6 +304,7 @@ public class StockServiceImpl implements StockService {
         BigDecimal openPrice = stockRtInfoMapper.getOpenPrice(code, openDate);
         //查询周五收盘价
         BigDecimal closePrice = stockRtInfoMapper.getClosePrice(code,  date);
+//        响应数据组装
         weekStockK weekK = new weekStockK();
         BeanUtils.copyProperties(data ,weekK);
         weekK.setMxTime(mxTime);
